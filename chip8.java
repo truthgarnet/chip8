@@ -13,8 +13,28 @@ public class chip8 {
     boolean[] pressed = new boolean[16];
 
     void fetch() {
-        opcode = memory[pc << 8] | memory[pc+1];
-	    pc += 2;
-    } 
-}
+        opcode = memory[pc << 8] | memory[pc + 1];
+        pc += 2;
+    }
 
+    void decode(int opcode) {
+        switch ((opcode & 0xF000) >> 12) {
+            case 0: // clear
+                switch ((opcode & 0x00FF)) {
+                    case 0xE0: // clear screen
+                        for (int x = 0; x < display.length; x++) {
+                            for (int y = 0; y < display[x].length; y++) {
+                                display[x][y] = false;
+                                break;
+                                // @TODO: Devleop Rerendering
+                            }
+                        }
+                        break;
+                    case 0xEE: // return
+                        sp--;
+                        pc = stack[sp];
+                        break;
+                }
+        }
+    }
+}
