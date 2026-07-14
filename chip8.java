@@ -35,6 +35,10 @@ public class chip8 {
                         pc = stack[sp];
                         break;
                 }
+            case 1: // jump
+                int nnn = (opcode & 0x0FFF);
+                pc = nnn;
+                break;
         }
     }
 }
