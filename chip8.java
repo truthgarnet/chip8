@@ -44,6 +44,12 @@ public class chip8 {
                 nnn = opcode & 0x0FFF;
                 pc = nnn;
                 break;
+            case 3: // skip conditionally
+                int nn = opcode & 0x00FF;
+                int x = (opcode & 0x0F00) >> 8;
+                if (V[x] == nn) {
+                    pc += 2;
+                }
         }
     }
 }
