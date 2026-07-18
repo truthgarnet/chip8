@@ -38,6 +38,12 @@ public class chip8 {
                 int nnn = opcode & 0x0FFF;
                 pc = nnn;
                 break;
+            case 2: // call
+                stack[sp] = pc;
+                sp++;
+                nnn = opcode & 0x0FFF;
+                pc = nnn;
+                break;
         }
     }
 }
