@@ -18,13 +18,14 @@ public class chip8 {
     }
 
     void decode() {
+        int nn, nnn, x;
         switch ((opcode & 0xF000) >> 12) {
             case 0:
                 switch ((opcode & 0x00FF)) {
                     case 0xE0: // clear screen
-                        for (int x = 0; x < display.length; x++) {
-                            for (int y = 0; y < display[x].length; y++) {
-                                display[x][y] = false;
+                        for (int displayX = 0; displayX < display.length; displayX++) {
+                            for (int displayY = 0; displayY < display[displayX].length; displayY++) {
+                                display[displayX][displayY] = false;
                                 // @TODO: 리랜더링 개발
                             }
                         }
@@ -33,9 +34,12 @@ public class chip8 {
                         sp--;
                         pc = stack[sp];
                         break;
+                    default:
+                        break;
                 }
+                break;
             case 1: // jump
-                int nnn = opcode & 0x0FFF;
+                nnn = opcode & 0x0FFF;
                 pc = nnn;
                 break;
             case 2: // call
@@ -45,11 +49,12 @@ public class chip8 {
                 pc = nnn;
                 break;
             case 3: // skip conditionally
-                int nn = opcode & 0x00FF;
-                int x = (opcode & 0x0F00) >> 8;
+                nn = opcode & 0x00FF;
+                x = (opcode & 0x0F00) >> 8;
                 if (V[x] == nn) {
                     pc += 2;
                 }
+                break;
         }
     }
 }
