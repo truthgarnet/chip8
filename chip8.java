@@ -11,5 +11,10 @@ public class chip8 {
     int delayTimer;
     boolean[][] display = new boolean[64][32]; // [x][y]
     boolean[] pressed = new boolean[16];
+    
+    void fetch() {
+        opcode = memory[pc << 8] | memory[pc + 1];
+        pc += 2;
+    }
 }
 
