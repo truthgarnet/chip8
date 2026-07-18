@@ -16,5 +16,25 @@ public class chip8 {
         opcode = memory[pc << 8] | memory[pc + 1];
         pc += 2;
     }
+
+    void decode() {
+        switch ((opcode & 0xF000) >> 12) {
+            case 0:
+                switch ((opcode & 0x00FF)) {
+                    case 0xE0: // clear screen
+                        for (int x = 0; x < display.length; x++) {
+                            for (int y = 0; y < display[x].length; y++) {
+                                display[x][y] = false;
+                                // @TODO: 리랜더링 개발
+                            }
+                        }
+                        break;
+                    case 0xEE: // return
+                        sp--;
+                        pc = stack[sp];
+                        break;
+                }
+            }
+    }
 }
 
