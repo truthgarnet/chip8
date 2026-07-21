@@ -18,7 +18,7 @@ public class chip8 {
     }
 
     void decode() {
-        int nn, nnn, x;
+        int nn, nnn, x, y;
         switch ((opcode & 0xF000) >> 12) {
             case 0:
                 switch ((opcode & 0x00FF)) {
@@ -55,6 +55,25 @@ public class chip8 {
                     pc += 2;
                 }
                 break;
+            case 4: // skip conditionally
+                nn = opcode & 0x00FF;
+                x = (opcode & 0x0F00) >> 8;
+                if (V[x] == nn) {
+                    pc += 2;
+                }
+                break;
+            case 5: // skip conditionally 
+                x = (opcode & 0x0F00) >> 8;
+                y = (opcode & 0x00F0) >> 4;
+                if (V[x] == V[y]) {
+                    pc += 2;
+                }
+            case 9: // skip conditionally 
+                x = (opcode & 0x0F00) >> 8;
+                y = (opcode & 0x00F0) >> 4;
+                if (V[x] != V[y]) {
+                    pc += 2;
+                }
         }
     }
 }
