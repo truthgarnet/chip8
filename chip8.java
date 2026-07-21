@@ -81,6 +81,11 @@ public class chip8 {
                 nn = opcode & 0x00FF;
                 V[x] = nn;
                 break;
+            case 7: // add
+                x = (opcode & 0x0F00) >> 8;
+                nn = opcode & 0x00FF;
+                V[x] += nn;
+                break;
         }
     }
 }
