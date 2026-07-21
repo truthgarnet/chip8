@@ -86,6 +86,59 @@ public class chip8 {
                 nn = opcode & 0x00FF;
                 V[x] += nn;
                 break;
+            case 8: 
+                int n = opcode & 0x000F;
+                switch (n) {
+                    case 0x0: // set
+                        x = (opcode & 0x0F00) >> 8;
+                        y = (opcode & 0x00F0) >> 4;
+                        V[x] = V[y];
+                        break;
+                    case 0x1: // set V[x] binary or V[x], V[y]
+                        x = (opcode & 0x0F00) >> 8;
+                        y = (opcode & 0x00F0) >> 4;
+                        V[x] = V[x] | V[y];
+                        break;
+                    case 0x2: // set V[x] binary and V[x], V[y]
+                        x = (opcode & 0x0F00) >> 8;
+                        y = (opcode & 0x00F0) >> 4;
+                        V[x] = V[x] & V[y];
+                        break;
+                    case 0x3: // set V[x] binary xor V[x], V[y] 
+                        x = (opcode & 0x0F00) >> 8;
+                        y = (opcode & 0x00F0) >> 4;
+                        V[x] = V[x] ^ V[y];
+                        break;
+                    case 0x4: // add 
+                        x = (opcode & 0x0F00) >> 8;
+                        y = (opcode & 0x00F0) >> 4;
+                        V[x] += V[y];
+                        break;
+                    case 0x5: // subtract
+                        x = (opcode & 0x0F00) >> 8;
+                        y = (opcode & 0x00F0) >> 4;
+                        V[x] = V[x] - V[y];
+                        break;
+                    case 0x6: // shift left
+                        x = (opcode & 0x0F00) >> 8;
+                        y = (opcode & 0x00F0) >> 4;
+                        V[x] = V[y];
+                        V[x] = V[x] >> 1;
+                        break;
+                    case 0x7: // add
+                        x = (opcode & 0x0F00) >> 8;
+                        y = (opcode & 0x00F0) >> 4;
+                        V[x] = V[y] - V[x];
+                        break;
+                    case 0xE: // shif right
+                        x = (opcode & 0x0F00) >> 8;
+                        y = (opcode & 0x00F0) >> 4;
+                        V[x] = V[y];
+                        V[x] = V[x] << 1;
+                        break;
+                    default:
+                        break;
+                }
         }
     }
 }
