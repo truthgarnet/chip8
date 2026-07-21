@@ -68,12 +68,19 @@ public class chip8 {
                 if (V[x] == V[y]) {
                     pc += 2;
                 }
+                break;
             case 9: // skip conditionally 
                 x = (opcode & 0x0F00) >> 8;
                 y = (opcode & 0x00F0) >> 4;
                 if (V[x] != V[y]) {
                     pc += 2;
                 }
+                break;
+            case 6: // set
+                x = (opcode & 0x0F00) >> 8;
+                nn = opcode & 0x00FF;
+                V[x] = nn;
+                break;
         }
     }
 }
