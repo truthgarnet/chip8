@@ -172,7 +172,7 @@ public class chip8 {
                             break;
                         }
 
-                        if (display[displayX + j][displayY + i] &* spritePixel) {
+                        if (display[displayX + j][displayY + i] & spritePixel) {
                             V[0xF] = 1;
                         }
                         display[(displayX + j) % 64][(displayY + i) % 32] = display[(displayX + j) % 64][(displayY + i) % 32] ^ spritePixel;
