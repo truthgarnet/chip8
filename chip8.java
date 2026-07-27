@@ -154,7 +154,30 @@ public class chip8 {
                 nn = opcode & 0x00FF;
                 x = (opcode & 0x0F00) >> 12;
                 V[x] = r & nn;
-                break;
+                break;             
+            case 0xD: // display
+                int displayX = V[(opcode & 0x0F00) >> 8];
+                int displayY = V[(opcode & 0x00F0) >> 4];
+                int displayN = (opcode & 0x000F);
+                V[0xF] = 0;
+                for (int i = 0; i < displayN; i++) {
+                    if (displayY + i > 32) {
+                        break;
+                    }
+                    int sprite = memory[I + i]; // new drawing
+                    for (int j = 0; j < 8; j++) { 
+                        boolean spritePixel = (sprite & (0x80 >> j)) != 0;
+
+                        if (displayX + j > 64) {
+                            break;
+                        }
+
+                        if (display[displayX + j][displayY + i] &* spritePixel) {
+                            V[0xF] = 1;
+                        }
+                        display[(displayX + j) % 64][(displayY + i) % 32] = display[(displayX + j) % 64][(displayY + i) % 32] ^ spritePixel;
+                    }
+                }
         }
     }
 }
