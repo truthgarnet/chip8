@@ -152,7 +152,7 @@ public class chip8 {
                 Random random = new Random();
                 int r = random.nextInt(256);
                 nn = opcode & 0x00FF;
-                x = (opcode & 0x0F00) >> 12;
+                x = (opcode & 0x0F00) >> 8;
                 V[x] = r & nn;
                 break;             
             case 0xD: // display
@@ -177,6 +177,24 @@ public class chip8 {
                         }
                         display[(displayX + j) % 64][(displayY + i) % 32] = display[(displayX + j) % 64][(displayY + i) % 32] ^ spritePixel;
                     }
+                }
+            case 0xE: // skip if key
+                switch (opcode & 0x00FF) {
+                    case 0x9E: // Skip next instruction if key VX is pressed
+                        x = (opcode & 0x0F00) >> 8;
+                        if (pressed[V[x]]) {
+                            pc += 2;
+                        }
+    
+                        break;
+                    case 0xA1: // 
+                        x = (opcode & 0x0F00) >> 8;
+                        if (!pressed[V[x]]) { // Skip next instruction if key VX is not pressed
+                            pc += 2;
+                        }
+                        break;
+                    default:
+                        break;
                 }
         }
     }
