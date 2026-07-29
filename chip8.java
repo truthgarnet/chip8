@@ -196,6 +196,25 @@ public class chip8 {
                     default:
                         break;
                 }
+            case 0xF: 
+                x = (opcode & 0x0F00) >> 8;
+                switch ((opcode & 0x0FF)) {
+                    case 0x07: // Set Vx to delayer timer
+                        V[x] = delayTimer;
+                        break;
+                    case 0x15:// Set delayer timer to Vx
+                        delayTimer = V[x];
+                        break;
+                    case 0x18:// Set sound timer to Vx
+                        soundTimer = V[x];
+                        break;
+                    case 0x1E: // add to index
+                        I += V[x];
+                    case 0x0A: // get key 
+                        
+                    default:
+                        break;
+                }
         }
     }
 }
