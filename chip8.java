@@ -211,8 +211,40 @@ public class chip8 {
                     case 0x1E: // add to index
                         I += V[x];
                     case 0x0A: // get key 
-                        
-                    default:
+                        boolean found = false; 
+                        for (int key = 0; key < 16; key++) {
+                            if (pressed[key]) {
+                                V[x] = key;
+                                found = true;
+                                break;
+                            }
+
+                            if (!found) {
+                                pc -= 2;
+                            }
+                        }
+                        break;
+                    case 0x29: // font character
+                        byte fontAddress = 0x050; 
+                        I = fontAddress + V[x] * 5;
+                        break;
+                    case 0x33: // Binary-coded decimal conversion
+                        int value = V[x] & 0xFF; 
+
+                        memory[I] = (byte) (value / 100);
+                        memory[I+1] = (byte) ((value/ 10) % 10);
+                        memory[I+2] =  (byte) (value % 10);
+                    case 0x55: // Store 
+                        for (int i = 0; i < x; i++) {
+                            memory[I + i] = (byte) V[i];
+                        }
+                        break;
+                    case 0x65: // load memory
+                        for (int i = 0; i <= x; i++) {
+                            V[i] = memory[I + i] & 0xFF;
+                        }
+                        break;
+                     default:
                         break;
                 }
         }
